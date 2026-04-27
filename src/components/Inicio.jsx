@@ -60,7 +60,10 @@ const Inicio = ( props ) => {
                                     </Button>
                                     {
                                         bdata.map((x)=>{
-                                            return <Modal className="modal" show={show} onHide={handleClose} {...props}
+                                            const tieneFoto =
+                                                typeof x.image === "string" &&
+                                                x.image.trim().length > 0;
+                                            return <Modal key={x.id != null ? String(x.id) : `ficha-${String(x.dni)}`} className="modal" show={show} onHide={handleClose} {...props}
                                                 size="lg"
                                                 aria-labelledby="contained-modal-title-vcenter"
                                                 centered style={{textAlign:'center'}}>
@@ -69,15 +72,21 @@ const Inicio = ( props ) => {
                                                                 <h4 className="nombreModal-funcion">{x.funcion}</h4> 
                                                             </Modal.Title>
                                                         </ModalHeader>
-                                                        <Modal.Body>
+                                                        <Modal.Body className="modal-body-centrado">
                                                             <div className="modal-foto-dato">
-                                                                <img className="my-2 imgPersonaModal" src={x.image} alt="foto de OMC" />
-                                                                <div>
-                                                                    <h4 className="modal-apellido">{x.apellido}</h4> 
+                                                                {tieneFoto ? (
+                                                                    <img
+                                                                        className="my-2 imgPersonaModal"
+                                                                        src={x.image.trim()}
+                                                                        alt="foto de OMC"
+                                                                    />
+                                                                ) : null}
+                                                                <div className="modal-datos-persona">
+                                                                    <h4 className="modal-apellido">{x.apellido}</h4>
                                                                     <h4 className="modal-nombre">{x.nombre}</h4>
                                                                     <h5 className="modal-dni"> DNI: {x.dni} </h5>
                                                                 </div>
-                                                            </div> 
+                                                            </div>
                                                             <div className="niveles">
                                                                 {x.nivel1===true?(
                                                                                     <button className="nivelVerde" >
